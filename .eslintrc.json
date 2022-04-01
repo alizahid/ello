@@ -18,5 +18,13 @@
     "sort-destructure-keys",
     "simple-import-sort",
     "prettier"
-  ]
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "react/jsx-sort-props": "error",
+    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": "error",
+    "sort-destructure-keys/sort-destructure-keys": "error",
+    "sort-keys-fix/sort-keys-fix": "error"
+  }
 }

@@ -11,3 +11,7 @@
 body {
   @apply font-body bg-white text-black cursor-default;
 }
+
+a {
+  @apply transition-colors;
+}
