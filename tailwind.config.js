@@ -2,6 +2,7 @@ const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: ['src/**/*.tsx', 'src/styles/*.scss'],
+  plugins: [],
   theme: {
     extend: {
       colors: {
@@ -12,6 +13,5 @@ module.exports = {
     fontFamily: {
       body: ['Satoshi', 'sans-serif']
     }
-  },
-  plugins: []
+  }
 }
