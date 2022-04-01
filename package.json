@@ -9,12 +9,14 @@
   },
   "scripts": {
     "build": "next build",
+    "db:push": "env-cmd -f .env.local prisma db push",
     "dev": "next dev",
     "lint": "next lint",
     "prepare": "husky install",
     "start": "next start"
   },
   "dependencies": {
+    "@prisma/client": "3.11.1",
     "@supabase/supabase-js": "^1.33.2",
     "graphql": "^16.3.0",
     "next": "12.1.4",
@@ -29,6 +31,7 @@
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
     "autoprefixer": "^10.4.4",
+    "env-cmd": "^10.1.0",
     "eslint": "8.12.0",
     "eslint-config-next": "12.1.4",
     "eslint-config-prettier": "^8.5.0",

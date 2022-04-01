@@ -6,3 +6,167 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id
+
+  email String
+  name  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  comments   Comment[]
+  pages      Wiki[]
+  threads    Thread[]
+  tickets    Ticket[]
+  workspaces Member[]
+}
+
+model Workspace {
+  id   Int    @id @default(autoincrement())
+  slug String @unique
+
+  name String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  boards  Board[]
+  groups  Group[]
+  members Member[]
+  pages   Wiki[]
+}
+
+enum MemberRole {
+  owner
+  member
+}
+
+model Member {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId Int
+
+  role MemberRole
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([userId, workspaceId])
+}
+
+enum GroupType {
+  public
+}
+
+model Group {
+  id Int @id @default(autoincrement())
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId Int
+
+  name String
+  type GroupType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  threads Thread[]
+}
+
+enum ThreadStatus {
+  open
+  locked
+}
+
+model Thread {
+  id Int @id @default(autoincrement())
+
+  group   Group @relation(fields: [groupId], references: [id])
+  groupId Int
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  body   String
+  status ThreadStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  comments Comment[]
+}
+
+model Comment {
+  id Int @id @default(autoincrement())
+
+  thread   Thread @relation(fields: [threadId], references: [id])
+  threadId Int
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  body String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum WikiStatus {
+  draft
+  published
+}
+
+model Wiki {
+  id   Int    @id @default(autoincrement())
+  slug String @unique
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId Int
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  title  String
+  body   String
+  status WikiStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Board {
+  id   Int    @id @default(autoincrement())
+  slug String @unique
+
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId Int
+
+  title   String
+  columns String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  tickets Ticket[]
+}
+
+model Ticket {
+  id   Int    @id @default(autoincrement())
+  slug String @unique
+
+  board   Board @relation(fields: [boardId], references: [id])
+  boardId Int
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  column      String
+  description String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
