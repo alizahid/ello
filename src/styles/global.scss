@@ -1,0 +1,13 @@
+// fonts
+
+@import url('https://api.fontshare.com/css?f[]=satoshi@1&display=swap');
+
+// global
+
+::selection {
+  @apply bg-primary-600 bg-opacity-25;
+}
+
+body {
+  @apply font-body bg-white text-black cursor-default;
+}
