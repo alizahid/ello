@@ -9,15 +9,19 @@
   },
   "scripts": {
     "build": "next build",
+    "db:deploy": "env-cmd -f .env.production.local prisma db push",
     "db:push": "env-cmd -f .env.local prisma db push",
     "dev": "next dev",
+    "gql": "env-cmd -f .env.local graphql-codegen",
     "lint": "next lint",
     "prepare": "husky install",
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.10",
     "@prisma/client": "3.11.1",
     "@supabase/supabase-js": "^1.33.2",
+    "deepmerge": "^4.2.2",
     "graphql": "^16.3.0",
     "lodash": "^4.17.21",
     "next": "12.1.4",
@@ -27,6 +31,8 @@
     "sass": "^1.49.10"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typescript": "^2.4.8",
     "@types/lodash": "^4.14.181",
     "@types/node": "17.0.23",
     "@types/react": "17.0.43",

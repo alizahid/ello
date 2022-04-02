@@ -1,6 +1,7 @@
 import '../styles/global.scss'
 import 'tailwindcss/tailwind.css'
 
+import { ApolloProvider, useApolloClient } from '@apollo/client'
 import { AbstractIntlMessages, NextIntlProvider } from 'next-intl'
 import { FunctionComponent } from 'react'
 
@@ -16,13 +17,17 @@ const Ello: FunctionComponent<AppPropsWithLayout> = ({
   pageProps,
   router
 }) => {
+  const client = useApolloClient(pageProps)
+
   const locale = router.locale ?? 'en'
 
   const getLayout = Component.getLayout ?? ((page) => page)
 
   return (
     <NextIntlProvider locale={locale} messages={messages[locale]}>
-      {getLayout(<Component {...pageProps} />)}
+      <ApolloProvider client={client}>
+        {getLayout(<Component {...pageProps} />)}
+      </ApolloProvider>
     </NextIntlProvider>
   )
 }
