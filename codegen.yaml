@@ -1,0 +1,9 @@
+schema:
+  - ${SUPABASE_URL}/graphql/v1:
+      headers:
+        apiKey: ${SUPABASE_KEY}
+
+generates:
+  src/types/graphql.ts:
+    plugins:
+      - typescript
