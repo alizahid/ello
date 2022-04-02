@@ -1,11 +1,12 @@
 import '../styles/global.scss'
 import 'tailwindcss/tailwind.css'
 
-import { ApolloProvider, useApolloClient } from '@apollo/client'
+import { ApolloProvider } from '@apollo/client'
 import { AbstractIntlMessages, NextIntlProvider } from 'next-intl'
 import { FunctionComponent } from 'react'
 
 import en from '../i18n/en.json'
+import { useApollo } from '../lib/apollo'
 import { AppPropsWithLayout } from '../types/next'
 
 const messages: Record<string, AbstractIntlMessages> = {
@@ -17,7 +18,7 @@ const Ello: FunctionComponent<AppPropsWithLayout> = ({
   pageProps,
   router
 }) => {
-  const client = useApolloClient(pageProps)
+  const client = useApollo(pageProps)
 
   const locale = router.locale ?? 'en'
 
