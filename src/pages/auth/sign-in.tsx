@@ -1,5 +1,4 @@
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from '../../components/common/button'
 import { Form } from '../../components/common/form'
