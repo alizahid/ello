@@ -1,5 +1,6 @@
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { useCallback, useState } from 'react'
+
+import { supabase } from '../../lib/supabase'
 
 type Returns = {
   error?: string
@@ -19,7 +20,7 @@ export const useSignUp = (): Returns => {
     setError(undefined)
     setSuccess(false)
 
-    const { error } = await supabaseClient.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password
     })

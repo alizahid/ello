@@ -1,5 +1,7 @@
-import { supabaseClient, User } from '@supabase/supabase-auth-helpers/nextjs'
+import { User } from '@supabase/supabase-js'
 import { GetServerSidePropsContext } from 'next'
+
+import { supabase } from '../lib/supabase'
 
 type CheckOptions = {
   authenticated?: boolean
@@ -20,10 +22,7 @@ const getUserStatus = async (user?: User | null): Promise<UserStatus> => {
     return UserStatus.None
   }
 
-  const { data } = await supabaseClient
-    .from('User')
-    .select('*')
-    .eq('email', email)
+  const { data } = await supabase.from('User').select('*').eq('email', email)
 
   if (!data || data.length === 0) {
     return UserStatus.Authenticated
@@ -39,7 +38,7 @@ export const withUserCheck = (options: CheckOptions = {}) => {
 
   return async ({ req }: GetServerSidePropsContext): Promise<any> => {
     try {
-      const { user } = await supabaseClient.auth.api.getUserByCookie(req)
+      const { user } = await supabase.auth.api.getUserByCookie(req)
 
       const userStatus = await getUserStatus(user)
 

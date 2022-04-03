@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 import { Button } from '../../components/common/button'
-import { Form } from '../../components/common/form'
 import { Input } from '../../components/common/input'
 import { Message, MessageType } from '../../components/common/message'
 import { useSignUp } from '../../hooks/auth/sign-up'
