@@ -2,6 +2,8 @@ import '../styles/global.scss'
 import 'tailwindcss/tailwind.css'
 
 import { ApolloProvider } from '@apollo/client'
+import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { UserProvider } from '@supabase/supabase-auth-helpers/react'
 import { AbstractIntlMessages, NextIntlProvider } from 'next-intl'
 import { FunctionComponent } from 'react'
 
@@ -27,7 +29,9 @@ const Ello: FunctionComponent<AppPropsWithLayout> = ({
   return (
     <NextIntlProvider locale={locale} messages={messages[locale]}>
       <ApolloProvider client={client}>
-        {getLayout(<Component {...pageProps} />)}
+        <UserProvider supabaseClient={supabaseClient}>
+          {getLayout(<Component {...pageProps} />)}
+        </UserProvider>
       </ApolloProvider>
     </NextIntlProvider>
   )
