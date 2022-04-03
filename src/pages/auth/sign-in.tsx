@@ -11,45 +11,43 @@ import { NextPageWithLayout } from '../../types/next'
 import { withGuestRequired } from '../../utils/withGuestRequired'
 
 const SignIn: NextPageWithLayout = () => {
-  const router = useRouter()
-
   const { error, loading, signIn, success } = useSignIn()
 
   const [email, setEmail] = useState('')
-
-  useEffect(() => {
-    if (success) {
-      router.push('/dashboard')
-    }
-  }, [success, router])
 
   return (
     <>
       <h1 className="text-4xl font-bold">Sign in</h1>
 
-      <Form
-        className="mt-6"
-        loading={loading}
-        onSubmit={() => {
-          signIn(email)
-        }}>
-        <Input
-          className="mt-4"
-          onChange={setEmail}
-          placeholder="Email"
-          required
-          type="email"
-          value={email}
-        />
+      {success ? (
+        <Message className="mt-8" type={MessageType.Success}>
+          Check your email for a magic link
+        </Message>
+      ) : (
+        <Form
+          className="mt-6"
+          loading={loading}
+          onSubmit={() => {
+            signIn(email)
+          }}>
+          <Input
+            className="mt-4"
+            onChange={setEmail}
+            placeholder="Email"
+            required
+            type="email"
+            value={email}
+          />
 
-        {error && (
-          <Message className="mt-8" type={MessageType.Error}>
-            {error}
-          </Message>
-        )}
+          {error && (
+            <Message className="mt-8" type={MessageType.Error}>
+              {error}
+            </Message>
+          )}
 
-        <Button className="mt-6" label="Sign in" type="submit" />
-      </Form>
+          <Button className="mt-6" label="Sign in" type="submit" />
+        </Form>
+      )}
     </>
   )
 }

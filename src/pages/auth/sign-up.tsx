@@ -14,6 +14,7 @@ const SignUp: NextPageWithLayout = () => {
   const { error, loading, signUp, success } = useSignUp()
 
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   return (
     <>
@@ -28,7 +29,7 @@ const SignUp: NextPageWithLayout = () => {
           className="mt-6"
           loading={loading}
           onSubmit={() => {
-            signUp(email)
+            signUp({ email, password })
           }}>
           <Input
             className="mt-4"
@@ -37,6 +38,15 @@ const SignUp: NextPageWithLayout = () => {
             required
             type="email"
             value={email}
+          />
+
+          <Input
+            className="mt-4"
+            onChange={setPassword}
+            placeholder="Password"
+            required
+            type="password"
+            value={password}
           />
 
           {error && (
