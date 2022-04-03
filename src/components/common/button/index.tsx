@@ -6,7 +6,7 @@ type Props = {
   label: ReactNode
   type: ButtonHTMLAttributes<HTMLButtonElement>['type']
 
-  onClick: () => void
+  onClick?: () => void
 }
 
 export const Button: FunctionComponent<Props> = ({
