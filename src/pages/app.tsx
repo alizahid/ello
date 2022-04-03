@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
 
-import { withUserRequired } from '../utils/withUserRequired'
+import { withUserCheck } from '../utils/withUserCheck'
 
 const Onboarding: NextPage = () => {
   return (
@@ -13,6 +13,9 @@ const Onboarding: NextPage = () => {
   )
 }
 
-export const getServerSideProps = withUserRequired
+export const getServerSideProps = withUserCheck({
+  authenticated: true,
+  onboarded: true
+})
 
 export default Onboarding
