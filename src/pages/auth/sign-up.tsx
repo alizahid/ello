@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 import { Button } from '../../components/common/button'
@@ -10,6 +11,8 @@ import { NextPageWithLayout } from '../../types/next'
 import { withUserCheck } from '../../utils/withUserCheck'
 
 const SignUp: NextPageWithLayout = () => {
+  const t = useTranslations()
+
   const { error, loading, signUp, success } = useSignUp()
 
   const [email, setEmail] = useState('')
@@ -21,7 +24,7 @@ const SignUp: NextPageWithLayout = () => {
 
       {success ? (
         <Message className="mt-6" type={MessageType.Success}>
-          Check your email for a confirmation link
+          {t('sign_up_success')}
         </Message>
       ) : (
         <Form
