@@ -27,10 +27,15 @@ const SignUp: NextPageWithLayout = () => {
           {t('sign_up_success')}
         </Message>
       ) : (
-        <Form
+        <form
           className="mt-6"
-          loading={loading}
-          onSubmit={() => {
+          onSubmit={(event) => {
+            event.preventDefault()
+
+            if (loading) {
+              return
+            }
+
             signUp({ email, password })
           }}>
           {error && (
@@ -58,7 +63,7 @@ const SignUp: NextPageWithLayout = () => {
           />
 
           <Button className="mt-6" label="Sign up" type="submit" />
-        </Form>
+        </form>
       )}
     </>
   )

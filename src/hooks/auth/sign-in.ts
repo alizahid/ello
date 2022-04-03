@@ -12,12 +12,12 @@ type Returns = {
 export const useSignIn = (): Returns => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>()
-  const [success, setSuccess] = useState<boolean>()
+  const [success, setSuccess] = useState<boolean>(false)
 
   const signIn: Returns['signIn'] = useCallback(async (email) => {
     setLoading(true)
     setError(undefined)
-    setSuccess(undefined)
+    setSuccess(false)
 
     const { error } = await supabaseClient.auth.signIn({
       email

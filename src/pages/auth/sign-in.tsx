@@ -2,7 +2,6 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 
 import { Button } from '../../components/common/button'
-import { Form } from '../../components/common/form'
 import { Input } from '../../components/common/input'
 import { Message, MessageType } from '../../components/common/message'
 import { useSignIn } from '../../hooks/auth/sign-in'
@@ -26,10 +25,15 @@ const SignIn: NextPageWithLayout = () => {
           {t('sign_in_success')}
         </Message>
       ) : (
-        <Form
+        <form
           className="mt-6"
-          loading={loading}
-          onSubmit={() => {
+          onSubmit={(event) => {
+            event.preventDefault()
+
+            if (loading) {
+              return
+            }
+
             signIn(email)
           }}>
           {error && (
@@ -48,7 +52,7 @@ const SignIn: NextPageWithLayout = () => {
           />
 
           <Button className="mt-6" label="Sign in" type="submit" />
-        </Form>
+        </form>
       )}
     </>
   )
