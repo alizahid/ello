@@ -12,12 +12,12 @@ type Returns = {
 export const useSignUp = (): Returns => {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>()
-  const [success, setSuccess] = useState<boolean>()
+  const [success, setSuccess] = useState<boolean>(false)
 
   const signUp: Returns['signUp'] = useCallback(async ({ email, password }) => {
     setLoading(true)
     setError(undefined)
-    setSuccess(undefined)
+    setSuccess(false)
 
     const { error } = await supabaseClient.auth.signUp({
       email,
