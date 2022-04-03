@@ -1,29 +1,25 @@
-import { getUser } from '@supabase/supabase-auth-helpers/nextjs'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
-type GuestHocProps = {
-  req: NextApiRequest
-  res: NextApiResponse
-}
-
-export const withGuestRequired = async ({ req, res }: GuestHocProps) => {
+export const withGuestRequired: GetServerSideProps = async ({
+  req
+}: GetServerSidePropsContext) => {
   try {
-    const { user } = await getUser({ req, res })
+    const { user } = await supabaseClient.auth.api.getUserByCookie(req)
 
     if (user) {
       return {
         redirect: {
-          destination: '/dashboard',
+          destination: '/app',
           permanent: false
         }
       }
     } else {
       throw new Error('')
     }
-    // eslint-disable-next-line no-empty
-  } catch (e) {}
-
-  return {
-    props: {}
+  } catch (error) {
+    return {
+      props: {}
+    }
   }
 }
