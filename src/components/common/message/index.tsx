@@ -27,6 +27,6 @@ export const Message: FunctionComponent<Props> = ({
         : 'bg-sky-100',
       className
     )}>
-    <div className="flex-1 ml-3">{children}</div>
+    <div className="flex-1">{children}</div>
   </div>
 )

@@ -7,7 +7,7 @@ import { Message, MessageType } from '../../components/common/message'
 import { useSignUp } from '../../hooks/auth/sign-up'
 import { PageLayout } from '../../layouts/page'
 import { NextPageWithLayout } from '../../types/next'
-import { withGuestRequired } from '../../utils/withGuestRequired'
+import { withUserCheck } from '../../utils/withUserCheck'
 
 const SignUp: NextPageWithLayout = () => {
   const { error, loading, signUp, success } = useSignUp()
@@ -61,7 +61,7 @@ const SignUp: NextPageWithLayout = () => {
   )
 }
 
-export const getServerSideProps = withGuestRequired
+export const getServerSideProps = withUserCheck()
 
 SignUp.getLayout = (page) => <PageLayout title="sign_up">{page}</PageLayout>
 
