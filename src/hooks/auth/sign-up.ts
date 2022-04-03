@@ -14,7 +14,7 @@ export const useSignUp = (): Returns => {
   const [error, setError] = useState<string>()
   const [success, setSuccess] = useState<boolean>()
 
-  const signUp = useCallback<Returns['signUp']>(async ({ email, password }) => {
+  const signUp: Returns['signUp'] = useCallback(async ({ email, password }) => {
     setLoading(true)
     setError(undefined)
     setSuccess(undefined)
