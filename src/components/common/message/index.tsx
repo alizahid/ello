@@ -1,15 +1,15 @@
 import { FunctionComponent } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-type Props = {
-  className?: string
-  type?: MessageType
-}
-
 export enum MessageType {
   Error,
   Success,
   Message
+}
+
+type Props = {
+  className?: string
+  type?: MessageType
 }
 
 export const Message: FunctionComponent<Props> = ({

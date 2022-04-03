@@ -3,7 +3,7 @@ import Head from 'next/head'
 
 import { withUserCheck } from '../utils/withUserCheck'
 
-const Onboarding: NextPage = () => {
+const App: NextPage = () => {
   return (
     <>
       <Head>
@@ -18,4 +18,4 @@ export const getServerSideProps = withUserCheck({
   onboarded: true
 })
 
-export default Onboarding
+export default App
