@@ -19,7 +19,7 @@ const SignIn: NextPageWithLayout = () => {
       <h1 className="text-4xl font-bold">Sign in</h1>
 
       {success ? (
-        <Message className="mt-8" type={MessageType.Success}>
+        <Message className="mt-6" type={MessageType.Success}>
           Check your email for a magic link
         </Message>
       ) : (
@@ -29,20 +29,20 @@ const SignIn: NextPageWithLayout = () => {
           onSubmit={() => {
             signIn(email)
           }}>
+          {error && (
+            <Message className="mb-6" type={MessageType.Error}>
+              {error}
+            </Message>
+          )}
+
           <Input
-            className="mt-4"
+            className="mt-3"
             onChange={setEmail}
             placeholder="Email"
             required
             type="email"
             value={email}
           />
-
-          {error && (
-            <Message className="mt-8" type={MessageType.Error}>
-              {error}
-            </Message>
-          )}
 
           <Button className="mt-6" label="Sign in" type="submit" />
         </Form>

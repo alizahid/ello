@@ -12,12 +12,12 @@ export const withUserRequired: GetServerSideProps = async ({
       throw new Error('User is not authenticated')
     }
 
-    const { data: userData } = await supabaseClient
+    const { data } = await supabaseClient
       .from('User')
       .select('*')
       .eq('email', email)
 
-    if (!userData || userData.length === 0) {
+    if (!data || data.length === 0) {
       throw new Error('User is not onboarded')
     }
 

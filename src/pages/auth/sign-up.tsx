@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import { useState } from 'react'
 
 import { Button } from '../../components/common/button'
@@ -21,7 +20,7 @@ const SignUp: NextPageWithLayout = () => {
       <h1 className="text-4xl font-bold">Sign up</h1>
 
       {success ? (
-        <Message className="mt-8" type={MessageType.Success}>
+        <Message className="mt-6" type={MessageType.Success}>
           Check your email for a confirmation link
         </Message>
       ) : (
@@ -31,8 +30,14 @@ const SignUp: NextPageWithLayout = () => {
           onSubmit={() => {
             signUp({ email, password })
           }}>
+          {error && (
+            <Message className="mb-6" type={MessageType.Error}>
+              {error}
+            </Message>
+          )}
+
           <Input
-            className="mt-4"
+            className="mt-3"
             onChange={setEmail}
             placeholder="Email"
             required
@@ -41,19 +46,13 @@ const SignUp: NextPageWithLayout = () => {
           />
 
           <Input
-            className="mt-4"
+            className="mt-3"
             onChange={setPassword}
             placeholder="Password"
             required
             type="password"
             value={password}
           />
-
-          {error && (
-            <Message className="mt-8" type={MessageType.Error}>
-              {error}
-            </Message>
-          )}
 
           <Button className="mt-6" label="Sign up" type="submit" />
         </Form>
