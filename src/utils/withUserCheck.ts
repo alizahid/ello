@@ -36,7 +36,7 @@ const getUserStatus = async (user?: User | null): Promise<UserStatus> => {
 }
 
 export const withUserCheck = (options: CheckOptions = {}) => {
-  const { authenticated, onboarded, redirectTo } = options
+  const { authenticated = true, onboarded = true, redirectTo } = options
 
   return async ({ req }: GetServerSidePropsContext): Promise<any> => {
     const { user } = await supabase.auth.api.getUserByCookie(req)
