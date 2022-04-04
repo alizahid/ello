@@ -1,11 +1,13 @@
+import { useRouter } from 'next/router'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '../../components/common/button'
 import { Input } from '../../components/common/input'
 import { Message, MessageType } from '../../components/common/message'
 import { useSignIn } from '../../hooks/auth/sign-in'
 import { PageLayout } from '../../layouts/page'
+import { useUser } from '../../providers/user'
 import { NextPageWithLayout } from '../../types/next'
 import { withUserCheck } from '../../utils/withUserCheck'
 
@@ -15,6 +17,7 @@ const SignIn: NextPageWithLayout = () => {
   const { error, loading, signIn, success } = useSignIn()
 
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   return (
     <>
@@ -34,7 +37,7 @@ const SignIn: NextPageWithLayout = () => {
               return
             }
 
-            signIn(email)
+            signIn({ email, password })
           }}>
           {error && (
             <Message className="mb-6" type={MessageType.Error}>
@@ -49,6 +52,15 @@ const SignIn: NextPageWithLayout = () => {
             required
             type="email"
             value={email}
+          />
+
+          <Input
+            className="mt-3"
+            onChange={setPassword}
+            placeholder="Password"
+            required
+            type="password"
+            value={password}
           />
 
           <Button className="mt-6" label="Sign in" type="submit" />

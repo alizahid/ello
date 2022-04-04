@@ -9,6 +9,7 @@ import {
   useState
 } from 'react'
 
+import { request } from '../lib/request'
 import { supabase } from '../lib/supabase'
 
 type Context = {
@@ -24,7 +25,7 @@ export const UserContext = createContext<Context>({
 })
 
 export const UserProvider: FunctionComponent = ({ children }) => {
-  const { pathname } = useRouter()
+  const { pathname, push: pushRoute } = useRouter()
 
   const [error, setError] = useState<string>()
   const [loading, setLoading] = useState<boolean>(false)
@@ -61,24 +62,20 @@ export const UserProvider: FunctionComponent = ({ children }) => {
       async (event, session) => {
         setLoading(true)
 
-        await fetch('/auth', {
-          body: JSON.stringify({ event, session }),
-          method: 'post'
-        }).then((res) => {
-          if (!res.ok) {
-            setError('Callback request failed')
-          }
-        })
+        try {
+          await request('/auth', { data: { event, session }, method: 'post' })
+        } catch (error) {
+          setError('Callback request failed')
+        }
 
-        await checkSession()
-        setLoading(false)
+        pushRoute('/app')
       }
     )
 
     return () => {
       authListener?.unsubscribe()
     }
-  }, [checkSession])
+  }, [checkSession, pushRoute])
 
   return (
     <UserContext.Provider
