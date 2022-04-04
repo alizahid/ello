@@ -7,7 +7,7 @@ type Returns = {
   loading: boolean
   success?: boolean
 
-  signIn: (email: string) => Promise<void>
+  signIn: (data: { email: string; password: string }) => Promise<void>
 }
 
 export const useSignIn = (): Returns => {
@@ -15,13 +15,14 @@ export const useSignIn = (): Returns => {
   const [error, setError] = useState<string>()
   const [success, setSuccess] = useState<boolean>(false)
 
-  const signIn: Returns['signIn'] = useCallback(async (email) => {
+  const signIn: Returns['signIn'] = useCallback(async ({ email, password }) => {
     setLoading(true)
     setError(undefined)
     setSuccess(false)
 
     const { error } = await supabase.auth.signIn({
-      email
+      email,
+      password
     })
 
     if (error) {
