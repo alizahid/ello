@@ -1,5 +1,4 @@
 import { User } from '@supabase/supabase-js'
-import { useRouter } from 'next/router'
 import {
   createContext,
   FunctionComponent,
@@ -9,7 +8,6 @@ import {
   useState
 } from 'react'
 
-import { request } from '../lib/request'
 import { supabase } from '../lib/supabase'
 
 type Context = {
@@ -25,8 +23,6 @@ export const UserContext = createContext<Context>({
 })
 
 export const UserProvider: FunctionComponent = ({ children }) => {
-  const { pathname, push: pushRoute } = useRouter()
-
   const [error, setError] = useState<string>()
   const [loading, setLoading] = useState<boolean>(false)
   const [user, setUser] = useState<User>()
@@ -56,26 +52,6 @@ export const UserProvider: FunctionComponent = ({ children }) => {
   useEffect(() => {
     checkSession()
   }, [checkSession])
-
-  useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        setLoading(true)
-
-        try {
-          await request('/auth', { data: { event, session }, method: 'post' })
-        } catch (error) {
-          setError('Callback request failed')
-        }
-
-        pushRoute('/app')
-      }
-    )
-
-    return () => {
-      authListener?.unsubscribe()
-    }
-  }, [checkSession, pushRoute])
 
   return (
     <UserContext.Provider

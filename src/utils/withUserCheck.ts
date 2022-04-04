@@ -28,7 +28,7 @@ const getUserStatus = async (user?: User | null): Promise<UserStatus> => {
     .eq('email', email)
     .single()
 
-  if (!data || data.length === 0) {
+  if (!data) {
     return UserStatus.Authenticated
   }
 
