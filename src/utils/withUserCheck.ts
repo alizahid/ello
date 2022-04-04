@@ -36,7 +36,11 @@ const getUserStatus = async (user?: User | null): Promise<UserStatus> => {
 }
 
 export const withUserCheck = (options: CheckOptions = {}) => {
-  const { authenticated = true, onboarded = true, redirectTo } = options
+  const {
+    authenticated = true,
+    onboarded = true,
+    redirectTo = '/auth/sign-in'
+  } = options
 
   return async ({ req }: GetServerSidePropsContext): Promise<any> => {
     const { user } = await supabase.auth.api.getUserByCookie(req)
@@ -53,13 +57,13 @@ export const withUserCheck = (options: CheckOptions = {}) => {
             }
           }
         }
-      } else {
-        if (userStatus !== UserStatus.Authenticated) {
-          return {
-            redirect: {
-              destination: redirectTo,
-              permanent: false
-            }
+      }
+
+      if (userStatus !== UserStatus.Authenticated) {
+        return {
+          redirect: {
+            destination: redirectTo,
+            permanent: false
           }
         }
       }
@@ -67,13 +71,13 @@ export const withUserCheck = (options: CheckOptions = {}) => {
       return {
         props: { user }
       }
-    } else {
-      if (userStatus !== UserStatus.None) {
-        return {
-          redirect: {
-            destination: redirectTo,
-            permanent: false
-          }
+    }
+
+    if (userStatus !== UserStatus.None) {
+      return {
+        redirect: {
+          destination: redirectTo,
+          permanent: false
         }
       }
     }
