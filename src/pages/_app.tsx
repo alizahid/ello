@@ -3,10 +3,12 @@ import 'tailwindcss/tailwind.css'
 
 import { ApolloProvider } from '@apollo/client'
 import { AbstractIntlMessages, NextIntlProvider } from 'next-intl'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
 import en from '../i18n/en.json'
 import { useApollo } from '../lib/apollo'
+import { request } from '../lib/request'
+import { supabase } from '../lib/supabase'
 import { UserProvider } from '../providers/user'
 import { AppPropsWithLayout } from '../types/next'
 
@@ -24,6 +26,24 @@ const Ello: FunctionComponent<AppPropsWithLayout> = ({
   const locale = router.locale ?? 'en'
 
   const getLayout = Component.getLayout ?? ((page) => page)
+
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        try {
+          await request('/auth', { data: { event, session }, method: 'post' })
+        } catch (error) {
+          //
+        }
+
+        router.push('/app')
+      }
+    )
+
+    return () => {
+      authListener?.unsubscribe()
+    }
+  }, [router])
 
   return (
     <NextIntlProvider locale={locale} messages={messages[locale]}>
