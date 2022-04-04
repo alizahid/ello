@@ -15,7 +15,8 @@ const App: NextPage = () => {
 
 export const getServerSideProps = withUserCheck({
   authenticated: true,
-  onboarded: true
+  onboarded: true,
+  redirectTo: '/auth/onboarding'
 })
 
 export default App
