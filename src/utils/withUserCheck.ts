@@ -22,7 +22,11 @@ const getUserStatus = async (user?: User | null): Promise<UserStatus> => {
     return UserStatus.None
   }
 
-  const { data } = await supabase.from('User').select('*').eq('email', email)
+  const { data } = await supabase
+    .from('User')
+    .select('*')
+    .eq('email', email)
+    .single()
 
   if (!data || data.length === 0) {
     return UserStatus.Authenticated
@@ -34,47 +38,48 @@ const getUserStatus = async (user?: User | null): Promise<UserStatus> => {
 export const withUserCheck = (options: CheckOptions = {}) => {
   const { authenticated, onboarded, redirectTo } = options
 
-  let defaultRedirectUrl = ''
-
   return async ({ req }: GetServerSidePropsContext): Promise<any> => {
-    try {
-      const { user } = await supabase.auth.api.getUserByCookie(req)
+    const { user } = await supabase.auth.api.getUserByCookie(req)
 
-      const userStatus = await getUserStatus(user)
+    const userStatus = await getUserStatus(user)
 
-      if (authenticated) {
-        if (onboarded) {
-          if (userStatus !== UserStatus.Onboarded) {
-            defaultRedirectUrl = '/auth/onboarding'
-            throw new Error('')
+    if (authenticated) {
+      if (onboarded) {
+        if (userStatus !== UserStatus.Onboarded) {
+          return {
+            redirect: {
+              destination: redirectTo,
+              permanent: false
+            }
           }
-        } else {
-          if (userStatus !== UserStatus.Authenticated) {
-            defaultRedirectUrl = '/auth/sign-in'
-            throw new Error('')
-          }
-        }
-
-        return {
-          props: { user }
         }
       } else {
-        if (userStatus !== UserStatus.None) {
-          defaultRedirectUrl = '/app'
-          throw new Error('')
+        if (userStatus !== UserStatus.Authenticated) {
+          return {
+            redirect: {
+              destination: redirectTo,
+              permanent: false
+            }
+          }
         }
       }
 
       return {
-        props: {}
+        props: { user }
       }
-    } catch (error) {
-      return {
-        redirect: {
-          destination: redirectTo ?? defaultRedirectUrl,
-          permanent: false
+    } else {
+      if (userStatus !== UserStatus.None) {
+        return {
+          redirect: {
+            destination: redirectTo,
+            permanent: false
+          }
         }
       }
+    }
+
+    return {
+      props: {}
     }
   }
 }

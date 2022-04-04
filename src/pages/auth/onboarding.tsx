@@ -15,7 +15,8 @@ const Onboarding: NextPage = () => {
 
 export const getServerSideProps = withUserCheck({
   authenticated: true,
-  onboarded: false
+  onboarded: false,
+  redirectTo: '/auth/sign-in'
 })
 
 export default Onboarding

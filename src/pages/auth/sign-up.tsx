@@ -68,7 +68,7 @@ const SignUp: NextPageWithLayout = () => {
   )
 }
 
-export const getServerSideProps = withUserCheck()
+export const getServerSideProps = withUserCheck({ redirectTo: '/app' })
 
 SignUp.getLayout = (page) => <PageLayout title="sign_up">{page}</PageLayout>
 

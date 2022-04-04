@@ -55,7 +55,7 @@ export const UserProvider: FunctionComponent = ({ children }) => {
 
   useEffect(() => {
     checkSession()
-  }, [pathname, checkSession])
+  }, [checkSession])
 
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
