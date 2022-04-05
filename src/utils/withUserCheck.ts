@@ -57,13 +57,13 @@ export const withUserCheck = (options: CheckOptions = {}) => {
             }
           }
         }
-      }
-
-      if (userStatus !== UserStatus.Authenticated) {
-        return {
-          redirect: {
-            destination: redirectTo,
-            permanent: false
+      } else {
+        if (userStatus !== UserStatus.Authenticated) {
+          return {
+            redirect: {
+              destination: redirectTo,
+              permanent: false
+            }
           }
         }
       }
