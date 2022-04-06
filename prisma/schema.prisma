@@ -55,7 +55,7 @@ model Member {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
-  @@unique([userId, workspaceId])
+  @@id([userId, workspaceId])
 }
 
 enum GroupType {
