@@ -1,13 +1,11 @@
-import { useRouter } from 'next/router'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from '../../components/common/button'
 import { Input } from '../../components/common/input'
 import { Message, MessageType } from '../../components/common/message'
 import { useSignIn } from '../../hooks/auth/sign-in'
 import { PageLayout } from '../../layouts/page'
-import { useUser } from '../../providers/user'
 import { NextPageWithLayout } from '../../types/next'
 import { withUserCheck } from '../../utils/withUserCheck'
 
