@@ -4,6 +4,7 @@ import 'tailwindcss/tailwind.css'
 import { ApolloProvider } from '@apollo/client'
 import { AbstractIntlMessages, NextIntlProvider } from 'next-intl'
 import { FunctionComponent, useEffect } from 'react'
+import { useAuth } from 'src/hooks/auth'
 
 import en from '../i18n/en.json'
 import { useApollo } from '../lib/apollo'
@@ -21,7 +22,8 @@ const Ello: FunctionComponent<AppPropsWithLayout> = ({
   pageProps,
   router
 }) => {
-  const client = useApollo(pageProps)
+  const auth = useAuth()
+  const client = useApollo({ pageProps, token: auth.session?.access_token })
 
   const locale = router.locale ?? 'en'
 
