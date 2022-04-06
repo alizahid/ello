@@ -47,23 +47,27 @@ export const withUserCheck = (options: CheckOptions = {}) => {
 
     const userStatus = await getUserStatus(user)
 
-    if (authenticated) {
-      if (onboarded) {
-        if (userStatus !== UserStatus.Onboarded) {
-          return {
-            redirect: {
-              destination: redirectTo,
-              permanent: false
-            }
+    if (authenticated && onboarded) {
+      if (userStatus !== UserStatus.Onboarded) {
+        return {
+          redirect: {
+            destination: redirectTo,
+            permanent: false
           }
         }
-      } else {
-        if (userStatus !== UserStatus.Authenticated) {
-          return {
-            redirect: {
-              destination: redirectTo,
-              permanent: false
-            }
+      }
+
+      return {
+        props: { user }
+      }
+    }
+
+    if (!onboarded) {
+      if (userStatus !== UserStatus.Authenticated) {
+        return {
+          redirect: {
+            destination: redirectTo,
+            permanent: false
           }
         }
       }
